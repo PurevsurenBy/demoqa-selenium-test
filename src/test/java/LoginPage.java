@@ -15,4 +15,14 @@ public class LoginPage extends BasePage {
         this.waitAndReturnElement(By.id("login")).click();
         return new ProfilePage(this.driver);
     }
+
+    public Boolean isUsernameAndPasswordDisplayed() {
+        WebElement usernameField = this.waitAndReturnElement(By.id("userName"));
+        WebElement passwordField = this.waitAndReturnElement(By.id("password"));
+        return usernameField.isDisplayed() && passwordField.isDisplayed();
+    } 
+
+    public String getTitle() {
+        return this.driver.getTitle();
+    }
 }

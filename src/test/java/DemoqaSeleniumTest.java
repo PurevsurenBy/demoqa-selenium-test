@@ -21,33 +21,54 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class DemoqaSeleniumTest {
 
     private WebDriver driver;
+    private Config config;
 
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-    }
-
-
-    @Test
-    public void testLogin() {
-    
-        LoginPage loginPage = new LoginPage(this.driver);        
-        ProfilePage profilePage = loginPage.login("abc", "bookStore1Pass!");
-
-        assertEquals("abc", profilePage.getUserName());
+        this.config = new Config();
     }
 
     @Test
-    public void testLogout() {
-
+    public void testStaticPage() {
         LoginPage loginPage = new LoginPage(this.driver);
-        ProfilePage profilePage = loginPage.login("abc", "bookStore1Pass!");
-        LoginPage loginPageAfterLogout = profilePage.logout();
 
+        assertEquals(config.getProperty("expectedTitle"), loginPage.getTitle());
+        assertTrue(loginPage.isUsernameAndPasswordDisplayed());
+    }
+
+    @Test
+    public void testLoginLogout() {
+        LoginPage loginPage = new LoginPage(this.driver);
+        ProfilePage profilePage = loginPage.login(config.getProperty("username"), config.getProperty("password"));
+
+        assertEquals(config.getProperty("username"), profilePage.getUserName());
+
+        LoginPage loginPageAfterLogout = profilePage.logout();
         String bodyText = loginPageAfterLogout.getBodyText();
+
         assertTrue("User should be logged out and back to login page.", bodyText.contains("Login"));
+    }
+
+    @Test
+    public void testFormSubmission() {
+        FormPage formPage = new FormPage(this.driver);
+        formPage.fillForm(config.getProperty("firstName"), config.getProperty("lastName"), config.getProperty("mobNumber"));
+        formPage.submitForm();
+        String confirmationMessage = formPage.getConfirmationMessage();
+
+        assertEquals("Thanks for submitting the form", confirmationMessage);
+    }
+
+    @Test
+    public void testDragAndDrop() {
+        DroppablePage droppablePage = new DroppablePage(driver);
+        droppablePage.dragAndDrop();
+
+        String actualText = droppablePage.getDroppableBoxText();
+        assertEquals(config.getProperty("expectedMessageDrop"), actualText);
     }
 
     @After
