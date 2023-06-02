@@ -15,6 +15,11 @@ public class Config {
         }
     }
 
+    public String[] getUrls() {
+        String urlsString = this.properties.getProperty("urls");
+        return urlsString.split(",");
+    }
+
     public String getProperty(String key) {
         return this.properties.getProperty(key);
     }

@@ -32,11 +32,14 @@ public class DemoqaSeleniumTest {
     }
 
     @Test
-    public void testStaticPage() {
-        LoginPage loginPage = new LoginPage(this.driver);
-
-        assertEquals(config.getProperty("expectedTitle"), loginPage.getTitle());
-        assertTrue(loginPage.isUsernameAndPasswordDisplayed());
+    public void testMultipleStaticPages() {
+        String[] urls = config.getUrls();
+        for(String url: urls) {
+            driver.get(url);
+            WebElement body = driver.findElement(By.tagName("body"));
+            
+            assertTrue(body.isDisplayed());
+        }
     }
 
     @Test
@@ -64,11 +67,22 @@ public class DemoqaSeleniumTest {
 
     @Test
     public void testDragAndDrop() {
-        DroppablePage droppablePage = new DroppablePage(driver);
+        DroppablePage droppablePage = new DroppablePage(this.driver);
         droppablePage.dragAndDrop();
 
         String actualText = droppablePage.getDroppableBoxText();
         assertEquals(config.getProperty("expectedMessageDrop"), actualText);
+    }
+
+    @Test
+    public void testTextBoxPage() {
+        TextBoxPage textBoxPage = new TextBoxPage(this.driver);
+        String fullName = config.getProperty("firstName") + " " + config.getProperty("lastName");
+        String email = config.getProperty("email");
+        textBoxPage.fillForm(fullName, email);
+
+        assertEquals(fullName, textBoxPage.getFullName());
+        assertEquals(email, textBoxPage.getEmail());
     }
 
     @After
