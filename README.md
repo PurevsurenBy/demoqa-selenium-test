@@ -15,16 +15,16 @@ These instructions will get you a copy of the project up and running on your loc
 ### Installing
 
 1. Clone the repository:
-
-git clone https://github.com/PurevsurenBy/demoqa-selenium-test.git
+   
+   git clone https://github.com/PurevsurenBy/demoqa-selenium-test.git
 
 2. Navigate to the project directory:
 
-cd your-repository-name
+   cd your-repository-name
 
 3. Install the dependencies:
 
-gradle build
+   gradle build
 
 ## Running the Tests
 
