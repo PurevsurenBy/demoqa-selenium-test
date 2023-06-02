@@ -43,6 +43,6 @@ The tests cover various functionalities of the DemoQA website, including:
 
 ## Built With
 
-- [Selenium WebDriver](https://www.selenium.dev/projects/webdriver/) - The web framework used for automating browser actions
+- [Selenium WebDriver](https://www.selenium.dev/documentation/webdriver/) - The web framework used for automating browser actions
 - [JUnit](https://junit.org/junit5/) - The testing framework used
 - [Gradle](https://gradle.org/) - Dependency Management
